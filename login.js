@@ -1,4 +1,4 @@
-import React, { Component , useState} from "react";
+import React, { Component} from "react";
 import { Button, Text, View,  TextInput, StyleSheet} from "react-native";
 
 
@@ -28,7 +28,6 @@ class Cat extends Component {
     return (
       <View style = { styles.container }>
 
-
         <Text style={{fontSize:40, color:"white"}}>Welcome back!</Text>
         <Text style={{fontSize:15, color:"grey"}}>Login with your email to start talking{"\n\n\n"}</Text> 
 
@@ -42,6 +41,7 @@ class Cat extends Component {
                               style={{height: 60, width:320}}
                               placeholder= {inputObj.placeholder}
                               placeholderTextColor = "grey"
+                              backgroundColor= "black"
                               color="white"
                               onChangeText = {(text)=>{
                                   this.setState({ [inputObj.name] : text })

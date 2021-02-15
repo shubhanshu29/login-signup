@@ -2,45 +2,56 @@ import React, { Component, useState} from "react";
 import { Button, Text, TextInput, StyleSheet, ScrollView , View} from "react-native";
 
 class Cat extends Component {
-    state = {
+  constructor(props) {
+    super(props);
+    this.state = {
       email: '',
-      password: '',
-    };
+      password: ''
+    }
+    
+    this.inputFields= [
+      {
+        name: "email",
+        placeholder: "Email"
+      },
+      {
+        name:"password",
+        placeholder: "Password"
+      }
+    ]
+  }
   render(props) {
     return (
       <ScrollView style = { styles.container }>
         <Text style={{ color: "white", fontSize:45, textAlign:"center"}}>{"\n"}Register{"\n"}</Text>
-        <Text style={{ color: "white"}}>What should everyone call you?</Text>
-        <TextInput
-          style={{height: 60}}
-          placeholder="Username"
-          backgroundColor="black"
-          color= "white"
-          placeholderTextColor= "grey"
-          
-        />
-        <Text style={{ color: "white"}}>{"\n\n"}Account Information:</Text>
-        <TextInput
-          style={{height: 60}}
-          placeholder="Email"
-          value={this.state.email}
-          onChangeText={(email) => this.setState({ email })}
-          backgroundColor="black"
-          color= "white"
-          placeholderTextColor= "grey"
-        />
-        
-        <Text>{"\n"}</Text>
-        <TextInput
-          style={{height: 60}}
-          placeholder="Password"
-          backgroundColor="black"
-          color= "white"
-          value={this.state.password}
-          onChangeText={(password) => this.setState({ password })}
-          placeholderTextColor= "grey"
-          
-        />
+        <Text style={{ color: "white"}}>Account Information{"\n"}</Text>
+
+        <View style={styles.form}>
+        {
+          this.inputFields.map( (inputObj) => {
+              return(
+                  <View>
+                      <View>
+                          <TextInput 
+                              style={{height: 60, width:320}}
+                              placeholder= {inputObj.placeholder}
+                              placeholderTextColor = "grey"
+                              color="white"
+                              onChangeText = {(text)=>{
+                                  this.setState({ [inputObj.name] : text })
+                                  this.setState({ [inputObj.err] : "" })
+                              }}
+                          />
+                      </View>
+                      
+                      <Text>
+                          {this.state[inputObj.err]}
+                      </Text>
+                  </View>
+              )
+            })
+        }
+        </View>
         <Text>{"\n"}</Text>
         <Button
           onPress={async () => {
