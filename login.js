@@ -29,10 +29,10 @@ class Cat extends Component {
         <Text style={{fontSize:40, color:"white"}}>Welcome back!</Text>
         <Text style={{fontSize:15, color:"grey"}}>Login with your email to start talking{"\n\n\n"}</Text> 
 
+
         <View style={styles.form}>
         {
           this.inputFields.map( (inputObj) => {
-              console.log(inputObj)
               return(
                   <View>
                       <View>
@@ -80,9 +80,11 @@ class Cat extends Component {
               })
               let data=await res.json();
               console.log(data)
+              alert(data);
             }
             catch(error){
               console.log(error)
+              alert(error);
             }
             
           }}

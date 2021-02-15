@@ -68,10 +68,10 @@ router.post("/login", (req, res) => {
             return res.send(error);
         }
         if(results.length == 0){
-            return res.send(JSON.stringify({"res":"THIS COMBINATION OF USERNAME PASSWORD DOESN'T EXIST"}));
+            return res.send(JSON.stringify("THIS COMBINATION OF USERNAME PASSWORD DOESN'T EXIST"));
         }
         else{
-            return res.send(results);
+            return res.send(JSON.stringify("Login Scccessully"));
         }
     });
 });
