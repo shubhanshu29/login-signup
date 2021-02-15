@@ -7,8 +7,19 @@ class Cat extends Component {
     this.state = {
       email: '',
       password: ''
-    };
+    }
+    this.inputFields= [
+      {
+        name: "email",
+        placeholder: "Email"
+      },
+      {
+        name:"password",
+        placeholder: "Password"
+      }
+    ]
   }
+  
   render(props) {    
     
     return (
@@ -18,32 +29,36 @@ class Cat extends Component {
         <Text style={{fontSize:40, color:"white"}}>Welcome back!</Text>
         <Text style={{fontSize:15, color:"grey"}}>Login with your email to start talking{"\n\n\n"}</Text> 
 
-        <TextInput
-          style={{height: 60, width:320}}
-          placeholder="Email"
-          backgroundColor="black"
-          value={this.state.email}
-          onChangeText={(email) => this.setState({ email })}
-          color= "white"
-          placeholderTextColor= "grey"
-        />
-        <Text>{"\n"}</Text>
-        
-
-
-        <TextInput
-          style={{height: 60, width:320}}
-          placeholder="Password"
-          backgroundColor="black"
-          value={this.state.password}
-          onChangeText={(password) => this.setState({ password })}
-          color= "white"
-          placeholderTextColor= "grey"
-        />
+        <View style={styles.form}>
+        {
+          this.inputFields.map( (inputObj) => {
+              console.log(inputObj)
+              return(
+                  <View>
+                      <View>
+                          <TextInput 
+                              style={{height: 60, width:320}}
+                              placeholder= {inputObj.placeholder}
+                              placeholderTextColor = "grey"
+                              color="white"
+                              onChangeText = {(text)=>{
+                                  this.setState({ [inputObj.name] : text })
+                                  this.setState({ [inputObj.err] : "" })
+                              }}
+                          />
+                      </View>
+                      
+                      <Text>
+                          {this.state[inputObj.err]}
+                      </Text>
+                  </View>
+              )
+            })
+        }
+        </View>        
         <Text style={{fontSize:15, color:"skyblue"}}>{"\n"}Forgot Password?</Text>
         <Text style={{fontSize:15, color:"skyblue"}}>Use a Password manager?</Text>
         <Text>{"\n"}</Text>
-
         
         <Button
           onPress={async () => {
