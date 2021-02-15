@@ -1,13 +1,16 @@
 import React, { Component , useState} from "react";
 import { Button, Text, View,  TextInput, StyleSheet} from "react-native";
 
+
 class Cat extends Component {  
+  
   constructor(props) {
     super(props);
     this.state = {
       email: '',
       password: ''
     }
+    
     this.inputFields= [
       {
         name: "email",
@@ -28,7 +31,6 @@ class Cat extends Component {
 
         <Text style={{fontSize:40, color:"white"}}>Welcome back!</Text>
         <Text style={{fontSize:15, color:"grey"}}>Login with your email to start talking{"\n\n\n"}</Text> 
-
 
         <View style={styles.form}>
         {
@@ -62,10 +64,20 @@ class Cat extends Component {
         
         <Button
           onPress={async () => {
-            console.log(JSON.stringify({
-              username: this.state.email,
-              password: this.state.password
-            }));
+
+            const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            var passw=  /^[A-Za-z]\w{7,14}$/;
+
+            if(!re.test(String(this.state.email).toLowerCase())){
+              alert("Invalid email");
+              return false;
+            }
+
+            if(!passw.test(this.state.password)){
+              alert("Invalid Password");
+              return false;
+            }
+            
             try{
               const res= await fetch('http://192.168.1.45:8000/login', {
                 method: 'POST',

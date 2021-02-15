@@ -44,6 +44,19 @@ class Cat extends Component {
         <Text>{"\n"}</Text>
         <Button
           onPress={async () => {
+            const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            var passw=  /^[A-Za-z]\w{7,14}$/;
+
+            if(!re.test(String(this.state.email).toLowerCase())){
+              alert("Invalid email");
+              return false;
+            }
+
+            if(!passw.test(this.state.password)){
+              alert("Invalid Password");
+              return false;
+            }
+            
             try{
               const res = await fetch('http://192.168.1.45:8000/register/', {
                 method: 'POST',
