@@ -5,11 +5,8 @@ class Cat extends Component {
     state = {
       email: '',
       password: '',
-      isValid: false
     };
   render(props) {
-    const { isValid } = this.state;
-    console.log('isValid', isValid);
     return (
       <ScrollView style = { styles.container }>
         <Text style={{ color: "white", fontSize:45, textAlign:"center"}}>{"\n"}Register{"\n"}</Text>
@@ -42,21 +39,12 @@ class Cat extends Component {
           value={this.state.password}
           onChangeText={(password) => this.setState({ password })}
           placeholderTextColor= "grey"
-          pattern={[
-            '^.{8,}$'
-          ]}
-          onValidation={isValid => this.setState({ isValid })}
+          
         />
-        <View>
-          <Text style={{ color: isValid && isValid[0] ? 'green' : 'red' }}>
-            Rule 1: min 8 chars
-          </Text>
-        </View>
         <Text>{"\n"}</Text>
         <Button
           onPress={async () => {
             try{
-              console.log(this.state.isValid);
               const res = await fetch('http://192.168.1.45:8000/register/', {
                 method: 'POST',
                 headers: {
@@ -69,10 +57,10 @@ class Cat extends Component {
                 })
               })
               let response= await res.json();
-              console.log(response);
+              alert(response);
             }
             catch(error){
-              console.log(error);
+              alert(error);
             }
           }}
           title="Create an account"

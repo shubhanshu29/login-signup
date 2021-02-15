@@ -44,14 +44,14 @@ router.post("/register", (req, res) => {
             return res.send(error);
         }
         if(results.length > 0){
-            return res.send("USERNAME ALREADY EXISTS! ");
+            return res.send(JSON.stringify("USERNAME ALREADY EXISTS! "));
         }
         else{
             db.query('INSERT INTO users SET ?', { username: username, password: password }, (error, result) => {
                 if(error) {
                   console.log(error)
                 } else {
-                  return res.send(JSON.stringify({"res":"Registration Done"}));
+                  return res.send(JSON.stringify("Registration Done"));
                 }
             });
         }
