@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 import { Button, Text, View, TextInput, StyleSheet } from "react-native";
+import { useNavigation } from '@react-navigation/native';
 
 
-class Cat extends Component {
+class Login extends Component {
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       email: {
         value: '',
@@ -25,7 +26,7 @@ class Cat extends Component {
   }
 
   render() {
-
+    const { navigation } = this.props;
     return (
       <View style={styles.container}>
 
@@ -89,8 +90,13 @@ class Cat extends Component {
                 })
               })
               let data = await res.json();
-              console.log(data)
-              alert(data);
+              if(data!='200'){
+                alert(data);
+              }
+              else{
+                navigation.navigate('Welcome');
+                // <FlatListDemo />
+              }
             }
             catch (error) {
               console.log(error)
@@ -107,15 +113,6 @@ class Cat extends Component {
   }
 }
 
-class Login extends Component {
-  render() {
-    return (
-      <>
-        <Cat />
-      </>
-    );
-  }
-}
 
 const styles = StyleSheet.create(
   {
@@ -128,4 +125,8 @@ const styles = StyleSheet.create(
     }
   });
 
-export default Login;
+  export default function(props) {
+    const navigation = useNavigation();
+  
+    return <Login {...props} navigation={navigation} />;
+  }

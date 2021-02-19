@@ -1,4 +1,4 @@
-import React, { Component, useState } from "react";
+import React, { Component } from "react";
 import { Button, Text, TextInput, StyleSheet, ScrollView, View } from "react-native";
 
 class Cat extends Component {

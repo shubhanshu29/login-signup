@@ -65,13 +65,13 @@ router.post("/login", (req, res) => {
     db.query('SELECT username from users WHERE username= ? and password= ?',[username, password], (error, results) =>{
         if(error){
             console.log(error);
-            return res.send(error);
+            res.send(error);
         }
         if(results.length == 0){
-            return res.send(JSON.stringify("THIS COMBINATION OF USERNAME PASSWORD DOESN'T EXIST"));
+            res.send(JSON.stringify("THIS COMBINATION OF USERNAME PASSWORD DOESN'T EXIST"));
         }
         else{
-            return res.send(JSON.stringify("Login Scccessully"));
+            res.send(JSON.stringify('200'));
         }
     });
 });
