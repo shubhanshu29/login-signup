@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { FlatList, View, StyleSheet, Text, Image, ActivityIndicator } from "react-native";
+import { AntDesign } from '@expo/vector-icons';
 
 const FlatListDemo = () => {
-    const [DATA, setData] = useState([]);
-    const [page, setPage] = useState(1);
-    const [refreshing, setRefreshing] = useState(false);
+    const [state, setState] = useState({ DATA: [], page: 1, refreshing: false });
 
     renderHeader = () => {
         return (
@@ -25,7 +24,7 @@ const FlatListDemo = () => {
 
     useEffect(() => {
         makeRequest();
-    }, [page]);
+    }, [state.page]);
 
     renderSeparator = () => {
         return (
@@ -41,17 +40,21 @@ const FlatListDemo = () => {
         );
     };
 
-    makeRequest = async () => {
+    makeRequest = async (prevState) => {
 
-        const url = await fetch('https://randomuser.me/api/?seed=1&page=' + page + '&results=20');
+        const url = await fetch('https://randomuser.me/api/?seed=1&page=' + state.page + '&results=20');
         const res = await url.json();
-        if (page == 1) {
-            setData(res.results);
+
+        for (var i = 0; i < res.results.length; i++) {
+            res.results[i].liked = false;
+        }
+
+        if (state.page == 1) {
+            setState({ ...state, DATA: res.results, refreshing: false });
         }
         else {
-            setData(DATA.concat(res.results));
+            setState({ ...state, DATA: [...state.DATA, ...res.results], refreshing: false });
         }
-        setRefreshing(false);
     }
 
     const renderItem = ({ item }) => {
@@ -70,6 +73,20 @@ const FlatListDemo = () => {
                         {item.email}
                     </Text>
                 </View>
+
+                <AntDesign name={item.liked ? "heart" : "hearto"} style={{ flex: 1, justifyContent: 'flex-end' }} size={24} color="red" onPress={() => {
+                    setState(prevState => ({
+                        ...prevState,
+                        DATA: prevState.DATA.map(userObject => (
+                            userObject.email === item.email ? {
+                                ...userObject,
+                                liked: !item.liked
+                            } : userObject
+                        ))
+                    }))
+                }} />
+
+
             </View>
         );
     };
@@ -78,21 +95,19 @@ const FlatListDemo = () => {
     return (
         <View style={styles.container}>
             <FlatList
-                data={DATA}
+                data={state.DATA}
                 renderItem={renderItem}
                 keyExtractor={(item) => item.email}
                 ItemSeparatorComponent={renderSeparator}
-                refreshing={refreshing}
+                refreshing={state.refreshing}
                 onRefresh={() => {
-                    setRefreshing(true);
-                    setPage(1);
-                    setRefreshing(false);
+                    setState({ ...state, page: 1, refreshing: true });
                 }}
                 ListHeaderComponent={renderHeader}
                 ListFooterComponent={renderFooter}
-                
+
                 onEndReached={() => {
-                    setPage(page + 1);
+                    setState({ ...state, page: state.page + 1 });
                 }}
                 onEndReachedThreshold={0.5}
                 initialNumToRender={20}
@@ -114,7 +129,8 @@ const styles = StyleSheet.create({
     component: {
         flexDirection: 'column',
         marginLeft: '2%',
-        flexWrap: 'wrap'
+        flexWrap: 'wrap',
+        flex: 4
     },
 
     tinyLogo: {
