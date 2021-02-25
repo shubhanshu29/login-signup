@@ -1,34 +1,23 @@
 // In App.js in a new project
 import * as React from 'react';
-import { Button, View, Text, Image, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import Register from './register';
-import Login from './login';
+import Register from './app/screens/register/index';
+import Login from './app/screens/login/index';
+import Welcome from './app/screens/welcome/index';
+import LoginHome from './app/screens/loginHome/index';
+import Profile from './app/screens/profile/index';
+import Comments from './app/screens/comments/index';
+import CreateTweets from './app/screens/createtweets/index';
+import AddFriends from './app/screens/addfriends/index'; 
+
 
 function HomeScreen({ navigation }) {
   return (
-    <View style={ styles.container }>
-      <Image
-          source={require('./logo.png')}
-          style={{width: 600, height: 200}}
-      />
-      <Text style={{fontSize: 30, color:"white"}}>Welcome to Discord{"\n"}</Text>
-      <Text style={{fontSize: 15, color:"grey", textAlign:"center"}}>Join with people who use Discord to talk with communities 
-      and friends.{"\n"}</Text>
-      <Button
-        style={{height: 40, paddingHorizontal:100, width:"100"}}
-        title="Register"
-        onPress={() => navigation.navigate('Register')}
-      />
-      <Text>{"\n"}</Text>
-      <Button
-
-        color="grey"
-        title="Login"
-        onPress={() => navigation.navigate('Login')}
-      />
-    </View>
+    <>
+      <LoginHome />
+    </>
   );
 }
 
@@ -39,21 +28,28 @@ function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="Register" component={Register} />
-        <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="Register" component={Register} options={{ headerShown: false }} />
+        <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
+        <Stack.Screen name="Welcome" component={Welcome} options={{ headerShown: false }} />
+        <Stack.Screen name="LoginHome" component={LoginHome} options={{ headerShown: false }} />
+        <Stack.Screen name="Profile" component={Profile} options={{ headerShown: false }} />
+        <Stack.Screen name="Comments" component={Comments} options={{ headerShown: false }} />
+        <Stack.Screen name="CreateTweets" component={CreateTweets} options={{ headerShown: false }} />
+        <Stack.Screen name="AddFriends" component={AddFriends} options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>
+
   );
 }
 const styles = StyleSheet.create(
   {
-       container:
-       {
-          justifyContent: "center",
-          alignItems: "center",
-          flex: 1,
-          backgroundColor: '#262624'
-       }
+    container:
+    {
+      justifyContent: "center",
+      alignItems: "center",
+      flex: 1,
+      backgroundColor: '#262624'
+    }
   });
 export default App;
