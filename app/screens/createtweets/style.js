@@ -11,5 +11,22 @@ export default styles = StyleSheet.create({
         flexDirection: 'column',
         alignContent: 'center',
         justifyContent: 'center'
+    },
+    
+    img: {
+        alignSelf: 'center',
+        width: 100,
+        height: 100,
+        borderRadius: 60
+    },
+
+    textbox: {
+        justifyContent: "center",
+        alignItems: "stretch",
+        height: 100,
+        borderRadius: 1000,
+        borderWidth: 1,
+        borderColor: "black",
+
     }
 })

@@ -4,10 +4,15 @@ import { FlatList, View, StyleSheet, Text, Image, ActivityIndicator, BackHandler
 import { TextInput } from "react-native-gesture-handler";
 import config from '../../utils/config';
 import styles from './style';
+import addcomment from './component';
+import { useSelector } from 'react-redux';
+import { FontAwesome } from '@expo/vector-icons';
+import toggleLike from './component';
+
 
 const Comments = ({ navigation, route }) => {
-    const [state, setState] = useState({ DATA: [], page: 1, refreshing: false, name: '', tweet: '', availability: false, comment: '' });
-
+    const [state, setState] = useState({ DATA: [], page: 1, refreshing: false, name: '', tweet: '', toggle:false, availability: true, comment: '' });
+    const globalParams = useSelector(state => state);
     renderHeader = () => {
         return (
             <View style={styles.container}>
@@ -29,6 +34,7 @@ const Comments = ({ navigation, route }) => {
         );
     };
 
+
     renderFooter = () => {
         if (state.availability) {
             return (
@@ -49,6 +55,10 @@ const Comments = ({ navigation, route }) => {
     useEffect(() => {
         makeRequest();
     }, [state.page]);
+
+    useEffect(() => {
+        setState({...state, toggle: false})
+    }, [state.toggle]);
 
     const backAction = () => {
         Alert.alert("Title", "This will exit the app... Continue anyway??", [
@@ -89,21 +99,20 @@ const Comments = ({ navigation, route }) => {
             setState(prevState => ({ ...state, page: prevState.page + 1 }))
     }
 
-    makeRequest = async (prevState) => {
+    makeRequest = async () => {
         const url = config.url;
-        const result = await fetch(url + 'comments/getcomments/' + route.params.data + '/' + state.page);
+        const result = await fetch(url + 'comments/getcomments/' + globalParams.userId + '/' + route.params.data + '/' + state.page);
         const res = await result.json();
-
-        if (res.Comments.length == 0) {
-            setState({ ...state, availability: false });
-        }
+        console.log(res);
         if (state.page == 1) {
-            setState({ ...state, DATA: res.Comments, refreshing: false, name: res.name, tweet: res.tweet, comment: '' });
+            setState({ ...state, DATA: res.data.Comments, refreshing: false, name: res.data.name, tweet: res.data.tweet, comment: '' });
         }
         else {
-            setState({ ...state, DATA: [...state.DATA, ...res.Comments], refreshing: false, name: res.name, tweet: res.tweet, comment: '' });
+            setState({ ...state, DATA: [...state.DATA, ...res.data.Comments], refreshing: false, name: res.data.name, tweet: res.data.tweet, comment: '' });
         }
-
+        if (res.data.Comments.length == 0) {
+            setState({ ...state, availability: false, name: res.data.name, tweet: res.data.tweet });
+        }
     }
 
     const renderItem = ({ item }) => {
@@ -118,6 +127,11 @@ const Comments = ({ navigation, route }) => {
                     <Text style={styles.item}>
                         {item.comment}
                     </Text>
+                    <FontAwesome name={item.selfLike ? "heart" : 'heart-o'} size={24} color="black" onPress={() => {
+                        toggleLike(item.id, globalParams.userId, item.selfLike);
+                        item.selfLike = !item.selfLike
+                        setState({ ...state, toggle: true });
+                    }} />
                 </View>
             </View>
         );
@@ -154,32 +168,7 @@ const Comments = ({ navigation, route }) => {
                 />
                 <Button
                     title='Send'
-                    onPress={async () => {
-                        try {
-                            const res = await fetch(url + 'comments/addcomments/', {
-                                method: 'POST',
-                                headers: {
-                                    'Accept': 'application/json',
-                                    'Content-Type': 'application/json',
-                                },
-                                body: JSON.stringify({
-                                    postId: route.params.data,
-                                    commentersId: '4',
-                                    commentText: state.comment
-                                })
-                            })
-
-                            let response = await res.json();
-
-                            if (response.Success) {
-                                console.log('Done')
-                                makeRequest();
-                            }
-                        }
-                        catch (error) {
-                            alert(error);
-                        }
-                    }}
+                    onPress={() => addcomment(route.params.data, state.comment, globalParams.userId)}
                 />
             </View>
         </View>

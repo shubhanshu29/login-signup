@@ -1,5 +1,5 @@
 const config = {
-    url: 'https://d6f4c6a22e32.ngrok.io/'
+    url: 'https://b2006f4e9070.ngrok.io/'
 }
 
 export default config;

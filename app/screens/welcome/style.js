@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import { StyleSheet } from 'react-native';
 
 export default styles = StyleSheet.create({
     bigScreen: {
@@ -7,11 +7,11 @@ export default styles = StyleSheet.create({
         flex: 9,
         flexDirection: 'column',
         marginTop: 20,
-        marginBottom: 20,
+        marginBottom: '10%',
         marginRight: '2%'
     },
 
-    
+
     icons: {
         flex: 1,
         flexDirection: 'row',
@@ -34,7 +34,7 @@ export default styles = StyleSheet.create({
         marginLeft: '2%',
         display: 'flex',
         flex: 1,
-        height: 70,
+        height: '50%',
         flexDirection: 'row',
         marginTop: 20,
         marginBottom: 20,
@@ -42,8 +42,9 @@ export default styles = StyleSheet.create({
     },
     component: {
         flexDirection: 'column',
+        height : '30%',
         marginLeft: '2%',
-        flex: 4
+        flex: 4,
     },
 
     tinyLogo: {
@@ -53,9 +54,11 @@ export default styles = StyleSheet.create({
     },
 
     item: {
+        marginTop:10,
+        marginBottom:10,
         height: 20,
         flexDirection: 'row',
-        flex: 1,
+        flex: 0.6,
         justifyContent: 'center',
         alignItems: 'center',
         color: 'grey',
@@ -63,6 +66,39 @@ export default styles = StyleSheet.create({
     },
 
     title: {
+        flex: 0.1,
+        flexDirection: 'row',
         fontSize: 15,
     },
+
+    seperator: {
+        height: 1,
+        width: "86%",
+        backgroundColor: "#CED0CE",
+        marginLeft: "10%",
+        marginRight: "10%"
+    },
+
+    searchbox: {
+        display: 'flex',
+        flex: 8,
+        borderColor: 'black',
+        borderWidth: 2,
+        borderRadius: 1000,
+        height: 30,
+        width: 50
+    },
+
+    popularity: {
+        flex: 0.3,
+        flexDirection: 'row',
+        alignContent: 'space-around',
+        alignItems: 'stretch',
+        alignSelf: 'stretch',
+    },
+
+    likeIcon: {
+        marginStart: '8%',
+        marginTop: '8%'
+    }
 });

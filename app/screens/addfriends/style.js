@@ -1,20 +1,21 @@
-import {StyleSheet} from 'react-native';
+import { StyleSheet } from 'react-native';
 
 export default styles = StyleSheet.create({
     search: {
-        marginTop: '10%',
+        marginTop: '2%',
         display: 'flex',
         marginLeft: '4%',
         marginRight: '4%',
-        flex: 1,
         flexDirection: 'row',
+        borderRadius: 10,
+        justifyContent: 'space-evenly'
     },
     bigScreen: {
         marginLeft: '2%',
         display: 'flex',
         flex: 9,
         flexDirection: 'column',
-        marginTop: 20,
+        marginTop: '10%',
         marginBottom: 20,
         marginRight: '2%'
     },
@@ -53,4 +54,13 @@ export default styles = StyleSheet.create({
     title: {
         fontSize: 15,
     },
+
+    searchbox: {
+        marginLeft: '2%',
+        display: 'flex',
+        flex: 8,
+        borderColor: 'black',
+        borderWidth: 2,
+        borderRadius: 100
+    }
 })
