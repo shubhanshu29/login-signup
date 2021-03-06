@@ -3,6 +3,23 @@ import React from 'react';
 import { View, Text, Image, ActivityIndicator } from "react-native";
 import { FontAwesome } from '@expo/vector-icons';
 import { likeTweet, unlikeTweet, getTweetsAPI } from '../../api/tweet';
+import { TweetsSkeleton } from "./skeleton";
+import { Ionicons } from '@expo/vector-icons';
+
+export const INITIAL_STATE = {
+    DATA: [],
+    page: 1,
+    refreshing: true,
+    availability: true,
+    toggle: false,
+    likes: {
+        heart: {
+            selectedName: "heart",
+            unSelectedName: "heart-o",
+            count: 0,
+        }
+    }
+}
 
 const loadTweets = async (tweets, dispatch) => {
     await dispatch({
@@ -14,10 +31,10 @@ const loadTweets = async (tweets, dispatch) => {
 }
 
 export const makeRequest = async (state, setState, dispatch, loginParams) => {
-    const response = await getTweetsAPI(state.page, dispatch, loginParams);
+    const response = await getTweetsAPI(state.page, loginParams);
     if (response.success) {
         if (state.page == 1) {
-            // await loadTweets(response.data, dispatch);
+            await loadTweets(response.data, dispatch);
             setState({ ...state, DATA: response.data, refreshing: false });
         }
         else {
@@ -28,7 +45,7 @@ export const makeRequest = async (state, setState, dispatch, loginParams) => {
         }
     }
     else {
-        alert(res.error);
+        alert(response.err);
         return;
     }
 }
@@ -78,8 +95,12 @@ export const renderItem = ({ item }) => {
 export const renderFooter = (availability) => {
     if (availability) {
         return (
-            <View style={{ alignItems: 'center' }}>
-                <ActivityIndicator color='grey' />
+            <View>
+                <View><TweetsSkeleton /><TweetsSkeleton /><TweetsSkeleton /><TweetsSkeleton /><TweetsSkeleton /><TweetsSkeleton /><TweetsSkeleton /><TweetsSkeleton /><TweetsSkeleton /><TweetsSkeleton /></View>
+                <View style={{ alignItems: 'center' }}>
+
+                    <ActivityIndicator color='grey' />
+                </View>
             </View>
         )
     }
@@ -92,13 +113,19 @@ export const renderFooter = (availability) => {
     }
 }
 
-export const toggleLike = async (tweetId, userId, likeStatus) => {
+export const toggleLike = async (jwtToken, tweetId, likeStatus) => {
 
-    if(likeStatus==-1){
-        const response = await unlikeTweet(tweetId, userId);
+    if (likeStatus === "unliked") {
+        const response = unlikeTweet(jwtToken, tweetId);
     }
-    else{
-        const response = await likeTweet(tweetId, userId, likeStatus);
+    else {
+        const response = likeTweet(jwtToken, tweetId, likeStatus);
     }
 
 }
+
+// export default renderExpressions = (item, loginParams, state, setState) => {
+//     return (
+        
+//     )
+// }

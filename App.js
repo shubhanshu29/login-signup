@@ -13,10 +13,14 @@ import CreateTweets from './app/screens/createtweets/index';
 import AddFriends from './app/screens/addfriends/index';
 import { Provider } from 'react-redux';
 import configStore from './app/store/';
+import { ShowFrame } from './app/screens/loginHome/showFrame';
+import {ReceivedFriendRequests} from './app/screens/addfriends/requestList';
+import {TweetsSkeleton } from './app/screens/welcome/skeleton'; 
+import Compressor from './app/screens/compressor/index';
 
 
 const store = configStore();
-
+const Stack = createStackNavigator();
 
 const HomeScreen = () => {
 
@@ -26,8 +30,6 @@ const HomeScreen = () => {
     </>
   )
 }
-
-const Stack = createStackNavigator();
 
 
 function App() {
@@ -44,21 +46,14 @@ function App() {
           <Stack.Screen name="Comments" component={Comments} options={{ headerShown: false }} />
           <Stack.Screen name="CreateTweets" component={CreateTweets} options={{ headerShown: false }} />
           <Stack.Screen name="AddFriends" component={AddFriends} options={{ headerShown: false }} />
+          <Stack.Screen name="ShowFrame" component={ShowFrame} options={{ headerShown: false }} />
+          <Stack.Screen name="FriendRequests" component={ReceivedFriendRequests} options={{ headerShown: false }} />
+          <Stack.Screen name="TweetsSkeleton" component={TweetsSkeleton} options={{ headerShown: false }} />
+          <Stack.Screen name="Compressor" component={Compressor} options={{ headerShown: false }} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>
   );
 }
-
-const styles = StyleSheet.create(
-  {
-    container:
-    {
-      justifyContent: "center",
-      alignItems: "center",
-      flex: 1,
-      backgroundColor: '#262624'
-    }
-  });
 
 export default App;

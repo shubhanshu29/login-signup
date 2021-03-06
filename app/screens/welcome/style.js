@@ -7,11 +7,8 @@ export default styles = StyleSheet.create({
         flex: 9,
         flexDirection: 'column',
         marginTop: 20,
-        marginBottom: '10%',
         marginRight: '2%'
     },
-
-
     icons: {
         flex: 1,
         flexDirection: 'row',
@@ -54,7 +51,6 @@ export default styles = StyleSheet.create({
     },
 
     item: {
-        marginTop:10,
         marginBottom:10,
         height: 20,
         flexDirection: 'row',

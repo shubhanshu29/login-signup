@@ -5,8 +5,6 @@ import { View, TextInput, FlatList, Image, Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import config from '../../utils/config';
 import styles from './style';
-// import renderFriendStatus from './component';
-// import renderItem from './component';
 import { useSelector } from 'react-redux';
 import { sendFriendRequest } from './component';
 
@@ -51,8 +49,8 @@ const AddFriends = () => {
                 {
                     item.friendshipStatus === 'unknown' &&
                     <Ionicons name="person-add-outline" size={24} color="black" onPress={() => {
-                        sendFriendRequest(loginParams.userId, item.id)
-                        item.id = 'pending'
+                        sendFriendRequest(loginParams.jwtToken, item.id)
+                        item.friendshipStatus = 'pending'
                         setState({ ...state, requestStatus: true })
                     }} />
                 }
@@ -76,9 +74,9 @@ const AddFriends = () => {
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
+                    'x-access-token': loginParams.jwtToken,
                 },
                 body: JSON.stringify({
-                    currentUserId: loginParams.userId,
                     searchText: state.search,
                 })
             })

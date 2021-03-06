@@ -39,6 +39,7 @@ export default Login = ({ navigation }) => {
                     onChangeText={(text) => handleChange(key, text, state, setState)}
                     value={inputObj.value}
                     editable={inputObj.editable}
+                    secureTextEntry = {inputObj.secureTextEntry}
                   />
                 </View>
 
@@ -56,7 +57,7 @@ export default Login = ({ navigation }) => {
       <Text>{"\n"}</Text>
 
       <Button
-        onPress={() => login(navigation, state.email.value, state.password.value, dispatch, state, setState)}
+        onPress={() => login(navigation, state.email.value, state.password.value, dispatch, setState)}
         title="Login"
       />
     </View>

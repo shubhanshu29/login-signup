@@ -1,29 +1,18 @@
-import config from '../../utils/config';
+import { createTweeetAPI } from '../../api/tweet';
 
-export default createTweeets = async (navigation , body, loginId) => {
-    try {
-        const url = config.url;
-        const res = await fetch(url + 'tweets/addtweet/', {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                tweetText: body,
-                loginId: loginId
-            })
-        })
+export const INITIAL_STATE = { 
+    body: '', 
+    userid: '' 
+}
 
-        let response = await res.json();
-        if (response.success) {
-            navigation.navigate('Welcome');
-        }
-        else {
-            alert(response.err);
-        }
+
+//Calls an API to post a tweet. If successul, redirect to welcome and otherwise alerts the error.
+export const createTweeets = async (navigation, body, jwtToken) => {
+    const response = await createTweeetAPI(body, jwtToken);
+    if (response.success) {
+        navigation.navigate('Welcome');
     }
-    catch (error) {
-        alert(error);
+    else {
+        alert(response.err);
     }
 }

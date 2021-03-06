@@ -3,11 +3,13 @@ import { Button, Text, View, TextInput } from "react-native";
 import styles from './style';
 import { useSelector , useDispatch} from 'react-redux';
 import { INITIAL_STATE, handleChange , updateProfile} from './component';
+import { useNavigation } from '@react-navigation/native';
 
 const Profile = () => {
     const globalParams = useSelector(state => state);
     const [state, setState] = useState(INITIAL_STATE);
     const dispatch = useDispatch();
+    const navigation = useNavigation();
 
     useEffect(() => {
         handleChange('email', globalParams.loginid, state, setState);
@@ -32,6 +34,7 @@ const Profile = () => {
                                         onChangeText={(text) => handleChange(key, text, state, setState)}
                                         value={inputObj.value}
                                         editable={inputObj.editable}
+                                        secureTextEntry= {inputObj.secureTextEntry}
                                     />
                                 </View>
 
@@ -45,11 +48,9 @@ const Profile = () => {
                 }
             </View>
             <Button
-                onPress={() => updateProfile(state.name.value, state.email.value, state.password.value, state.oldPassword.value, state.rePassword.value, dispatch)}
+                onPress={() => updateProfile(globalParams.jwtToken ,state.name.value, state.email.value, state.password.value, state.oldPassword.value, state.rePassword.value, dispatch, navigation)}
                 title="Reset"
             />
-
-
         </View>
     );
 

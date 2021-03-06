@@ -24,7 +24,6 @@ export default styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "stretch",
         height: 100,
-        borderRadius: 1000,
         borderWidth: 1,
         borderColor: "black",
 

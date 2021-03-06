@@ -42,7 +42,7 @@ export const loginVerify = async (navigation, email, dispatch, setState) => {
     }
 }
 
-//dispatches the corresponding values to redux for future use.
+//dispatches the corresponding values to redux store for future use.
 const dispatcher = (email, name, dispatch) => {
     dispatch(
         {

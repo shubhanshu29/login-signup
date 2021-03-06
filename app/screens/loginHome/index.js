@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Button, Text, View, TextInput, Image } from "react-native";
 import styles from './style';
 import { loginVerify, INITIAL_STATE, handleChange } from './component';

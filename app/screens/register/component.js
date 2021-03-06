@@ -1,4 +1,5 @@
 import { registerAPI } from '../../api/auth';
+import { isValidLoginId, isValidPassword } from '../../utils/validator';
 
 export const INITIAL_STATE = {
     name: {
@@ -31,47 +32,33 @@ export const INITIAL_STATE = {
     }
 }
 
+//function to dispatch name and email after successfully resgistering
+const dispatcher = async (email, name, dispatch) => {
+    await dispatch(
+        {
+            type: 'REGISTER',
+            payload: {
+                loginid: email,
+                name: name
+            }
+        }
+    )
+}
+
+//setting email id field from redux store
 export const setDefaultEmail = (key, globalParams, state, setState) => {
     handleChange(key, globalParams.loginid, state, setState);
 }
 
-
-const isNumber = (email) => {
-    const nu = /^[6-9]\d{9}$/;
-    if (nu.test(String(email).toLowerCase())) {
-        type = 0;
-        return true;
-    }
-    else {
-        return false;
-    }
-}
-
-const isEmail = (email) => {
-    const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    if (re.test(String(email).toLowerCase())) {
-        type = 1;
-        return true;
-    }
-    return false;
-}
-
-const isCorrectPassword = (password) => {
-    var passw = /^[A-Za-z]\w{7,14}$/;
-    if (!passw.test(password)) {
-        return false;
-    }
-    return true;
-}
-
+//function to register the user and dispatch the values to redux store
 export const register = async (name, email, password, repassword, dispatch, navigation) => {
-    if (!isNumber(email) && !isEmail(email)) {
+    if (!isValidLoginId(email)) {
         alert('Please enter valid phone number or email');
         return false;
     }
 
-    if (!isCorrectPassword(password)) {
-        alert("Invalid Password");
+    if(!isValidPassword(password)){
+        alert('Invalid password');
         return false;
     }
 
@@ -86,22 +73,12 @@ export const register = async (name, email, password, repassword, dispatch, navi
         navigation.navigate('Login')
     }
     else {
-        console.log(response.err);
+        alert(response.err);
     }
 }
 
-const dispatcher = async (email, name, dispatch) => {
-    await dispatch(
-        {
-            type: 'REGISTER',
-            payload: {
-                loginid: email,
-                name: name
-            }
-        }
-    )
-}
 
+//function to handle any state changes in between the renders
 export const handleChange = (key, text, state, setState) => {
     setState({
         ...state,

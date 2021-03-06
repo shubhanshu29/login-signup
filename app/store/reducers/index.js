@@ -5,7 +5,7 @@ const initialState = {
     name: '',
     userId: '3',
     tweets: [],
-    comments: [],
+    jwtToken: '',
 }
 
 const reducer = (state = initialState, action) => {
@@ -19,7 +19,8 @@ const reducer = (state = initialState, action) => {
         case LOGIN:
             return {
                 ...state,
-                userId: action.payload.userId
+                userId: action.payload.userId,
+                jwtToken: action.payload.jwtToken
             }
         case REGISTER:
             return {

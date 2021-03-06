@@ -25,8 +25,8 @@ export const renderItem = ({ item }) => {
     );
 };
 
-export const sendFriendRequest = async (sendersId, receiversId) => {
-    const response = await AddFriendsAPI(sendersId, receiversId);
+export const sendFriendRequest = async (jwtToken, receiversId) => {
+    const response = await AddFriendsAPI(jwtToken, receiversId);
     if(response.success){
         alert('Friend request sent');
     }

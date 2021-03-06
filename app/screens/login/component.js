@@ -1,22 +1,25 @@
-import { loginAPI } from '../../api/auth';
+import { loginAPI, sendDeviceDetailsAPI } from '../../api/auth';
 import { isValidLoginId, isValidPassword } from '../../utils/validator';
 import config from './../../utils/config';
-
+  
 export const INITIAL_STATE = {
     email: {
         value: '',
         placeholder: 'Email/ Phone number',
         key: '1',
         editable: false,
+        secureTextEntry: false,
     },
     password: {
         key: '2',
         value: '',
         placeholder: 'Password',
-        editable: true
+        editable: true,
+        secureTextEntry: true,
     }
 }
 
+//function to handle any state changes in between the renders
 export const handleChange = (key, text, state, setState) => {
     setState({
         ...state,
@@ -24,17 +27,19 @@ export const handleChange = (key, text, state, setState) => {
     })
 }
 
-
-const dispatchUserId = (id, dispatch) => {
+//function to dispatch user id to the redux store after successful registration.
+const dispatchUserId = (id, jwtToken, dispatch) => {
     dispatch({
         type: 'LOGIN',
         payload: {
             userId: id,
+            jwtToken: jwtToken
         }
     })
 }
 
-export const login = async (navigation, email, password, dispatch, state, setState) => {
+//Logging in user and storing the userid to redux store after successful logging in
+export const login = async (navigation, email, password, dispatch, setState) => {
     const url = config.url;    
 
     if (!isValidLoginId(email)) {
@@ -50,7 +55,8 @@ export const login = async (navigation, email, password, dispatch, state, setSta
     try {
         const response = await loginAPI(email, password);
         if (response.success) {
-            dispatchUserId(response.data.userId, dispatch);
+            dispatchUserId(response.data.userId, response.data.token , dispatch);
+            sendDeviceDetailsAPI();
             setState(INITIAL_STATE);
             navigation.navigate('Welcome');
         }

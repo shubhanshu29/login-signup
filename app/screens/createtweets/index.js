@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import { Text, View, TextInput, Button, Image } from 'react-native';
 import styles from './style';
-import createTweeets from './component';
+import { createTweeets,  INITIAL_STATE } from './component';
 import {useSelector } from 'react-redux';
 
-
 const CreateTweets = ({ navigation }) => {
-    const [state, changeState] = useState({ body: '', userid: '' });
+    const [state, changeState] = useState(INITIAL_STATE);
     const globalParams= useSelector(state => state);
 
     return (
@@ -29,7 +28,7 @@ const CreateTweets = ({ navigation }) => {
             <Text>{'\n'}</Text>
             <Button
                 title='Post'
-                onPress={() => createTweeets(navigation, state.body, globalParams.loginid)}
+                onPress={() => createTweeets(navigation, state.body, globalParams.jwtToken)}
             />
 
         </View>
